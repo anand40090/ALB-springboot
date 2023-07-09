@@ -1,0 +1,63 @@
+Reference links - https://github.com/cloudtechmasters/eks-cluster-setup
+https://github.com/cloudtechmasters/eks-alb-ingress-aws-waf/tree/main
+
+1. Create EKS cluser >>
+eksctl create cluster --name DC 
+-r ap-south-1 
+--zones ap-south-1a,ap-south-1b 
+--nodegroup-name DC-ng 
+--node-type t2.medium 
+--nodes 2 -m 2 -M 3 
+--ssh-access  
+--ssh-public-key 22-May-2023 
+
+2. Create an AWS Identity and Access Management (IAM) OIDC provider and associate the OIDC provider with your cluster:
+ eksctl utils associate-iam-oidc-provider \
+  --region ap-sotuh-1 \
+  --cluster DC \
+  --approve
+3. Download an IAM policy for the AWS Load Balancer Controller:
+ curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy.json
+ 
+4. Create an IAM policy using the policy that you downloaded from step 2:
+ aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json
+ 
+5. Create an IAM role for the AWS Load Balancer Controller and attach the role to the service account created in step 2:
+ eksctl create iamserviceaccount --cluster=DC 
+ --namespace=kube-system --name=aws-load-balancer-controller 
+ --attach-policy-arn=arn:aws:iam::400150977086:policy/AWSLoadBalancerControllerIAMPolicy
+ --override-existing-serviceaccounts 
+ --approve 
+ --region ap-south-1
+ 
+ 6. Install the AWS Load Balancer Controller using Helm 3.0.0
+ Create an IAM policy.
+
+Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf.
+
+AWS GovCloud (US-East) or AWS GovCloud (US-West) AWS Regions
+
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.7/docs/install/iam_policy_us-gov.json
+
+All other AWS Regions
+
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.7/docs/install/iam_policy.json
+
+
+Install the AWS Load Balancer Controller using Helm V3 or later or by applying a Kubernetes manifest. 
+If you want to deploy the controller on Fargate, use the Helm procedure. 
+The Helm procedure doesn't depend on cert-manager because it generates a self-signed certificate.
+
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system \
+  --set clusterName=DC \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller
+
+7. Verify that the controller is installed.
+
+admin1@ip-172-31-35-60:~/projects/eks-vpa$ kubectl get deployment -n kube-system aws-load-balancer-controller
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+aws-load-balancer-controller   2/2     2            2           38s
+
+deploy model due to AccessDenied: User: arn:aws:sts::400150977086:assumed-role/eksctl-DC-addon-iamserviceaccount-kube-syste-Role1-7G6L2ZAK12AQ/1688921168287379098 
