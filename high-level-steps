@@ -2,7 +2,16 @@
 https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 
 ## Have Helm installed in your VM
+https://helm.sh/docs/intro/install/
+manualy download your desired version
+Unpack it (tar -zxvf helm-v3.0.0-linux-amd64.tar.gz)
+Find the helm binary in the unpacked directory, and move it to its desired destination (mv linux-amd64/helm /usr/local/bin/helm)
 helm version --short
+
+Install helm from Script >> 
+$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+$ chmod 700 get_helm.sh
+$ ./get_helm.sh
 
 ## What Kubernetes Ingress
 "Kubernetes Ingress is an API object that provides routing rules to manage external user`s access to the services in a Kubernetes cluster,
