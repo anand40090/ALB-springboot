@@ -22,6 +22,51 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 ---
 
 # Detailed steps 
+
+### 1.Create the required IAM role and policy and attach it to the created VM, same policy to be attached to IAM user.
+#### Step 1 :- Create IAM policy for full access || policy name - "full-access"
+1. Copy the Json code and create IAM role for full access on the multiple AWS services
+2. Goto AWS IAM >> Policies >> Create policy >> open Json editor >> copy - paste below mentioned json code >> Next >> Review and create the policy
+3. This policy have full access on multiple AWS services that may be used during the execution on different services.
+4. Once the policy is created attach this policy to IAM role and attach that IAM role to the any os the AWS instance to provide access on the AWS services listed in the Json code. 
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Statement1",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:*",
+                "ecr:*",
+                "s3:*",
+                "iam:*",
+                "eks:*",
+                "rds:*",
+                "cloudformation:*",
+                "sns:*",
+                "ses:*",
+                "autoscaling:*",
+                "autoscaling-plans:*",
+                "codedeploy:*",
+                "acm:*",
+                "cognito-idp:*",
+                "shield:*",
+                "wafv2:*",
+                "elasticloadbalancing:*",
+                "waf-regional:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
+}
+```
+#### Step 2 :- Create IAM role and attch the above created polic to that role
+1. Go to IAM >> Roles >> Create role >> Select Trusted entity type "AWS service" >> Common use cases "EC2" >> Next >> 
+2. Add permissions >> select the newly created policy "full-access" >> Next >> Give role name >> Create role
+
 ### 1. Create VM to use EKSCTL & Kubectl 
 (for this use any type of client machine, no dependency on vm type / os. Just EKSCTL and Kubectl to work fine)
 
