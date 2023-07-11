@@ -129,14 +129,14 @@ eksctl create cluster --name eksingressdemo\
 --appmesh-access\
 --alb-ingress-access
 
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/6bd52ef3-1c3b-4cea-bd8d-a24fb3b4850c)
+
+
 ## Get EKS Cluster service
 eksctl get cluster --name eksingressdemo --region ap-south-1
 
 ## Create IAM OIDC provider
 eksctl utils associate-iam-oidc-provider --region ap-south-1 --cluster eksingressdemo --approve
-
-## Create an IAM policy called
-aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json
 
 ## Create a IAM role and ServiceAccount
 eksctl create iamserviceaccount --cluster eksingressdemo --namespace kube-system --name aws-load-balancer-controller --attach-policy-arn arn:aws:iam::400150977086:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
