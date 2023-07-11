@@ -1,25 +1,49 @@
 ## Pre-requisite links
 https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 
-## High level steps
+## Table Of contents
 ---
-1. Create the required IAM role (SSM-FullAccess for EC2 instance)
-1. Create IAM policy 1. full-access for IAM user 2. AWSLoadBalancerControllerIAMPolicy for EKS cluster
-1. Create VM to use EKSCTL & Kubectl (for this use any type of OS VM, no dependency on vm type), attach the IAM "SSM-FullAccess" role 
-1. Create IAM power user, attach the IAM policy "full-access". Download the user scret & private access key for future use.
-5. Install pre-requsite applications (Git, Docker,Maven,Jdk-11,EKSCTL,KUBECTL,HELM,AWSCLI).
-6. Configure the IAM user in created vm.
-7. Create EKS cluster using ekstcl command
-8. Create IAM OIDC provider
-9. Install the TargetGroupBinding CRDs
-10. Deploy the Helm chart
-11. Configure AWS ALB (Apllication Load Balancer) to sit infront of Ingress
-12. Deploy Sample Application
-13. Verify Ingress
-14. Get Ingress URL
-15. Get EKS Pod data
-16. Delete EKS cluster once your job is done
+1. Infra creation for this project
+   - Create the required IAM policies 1. full-access for IAM user 2. AWSLoadBalancerControllerIAMPolicy for EKS cluster
+   - Create the required IAM role "SSM-FullAccess" for EC2 instance.
+   - Follow the page for full VM setup with required applications [Setup an AWS EC2 Instance](https://sunitabachhav2007.hashnode.dev/jenkins-cicd-with-amazon-eks#heading-setup-an-aws-ec2-instance)
+   - [Install_AWS_CLI](https://sunitabachhav2007.hashnode.dev/jenkins-cicd-with-amazon-eks#heading-install-and-setup-aws-cli)
+   - [Install_EKSCTL_KUBECTL](https://sunitabachhav2007.hashnode.dev/jenkins-cicd-with-amazon-eks#heading-install-and-setup-kubectl)
+   - [Installing Helm](https://helm.sh/docs/intro/install/)
+   - Once the VM is created attach the IAM role "SSM-FullAccess" to the created VM.
+      - Go to EC2 instance >> select the newly created VM >> Go to Actions >> Security >> Modify IAM role >> Select the IAM role "SSM-FullAccess" >> click on Update IAM role
+   - Create IAM power user, attach the IAM policy "full-access". Download the user secret & private access key for future use.
+
+1. Create EKS cluster using eksctl command
+1. Create IAM OIDC provider
+1. Install the TargetGroupBinding CRDs
+1. Deploy the Helm chart
+1. Configure AWS ALB (Apllication Load Balancer) to sit infront of Ingress
+1. Deploy Sample Application
+1. Verify Ingress
+1. Get Ingress URL
+1. Get EKS Pod data
+1. Delete EKS cluster once your job is done
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Detailed steps 
 
