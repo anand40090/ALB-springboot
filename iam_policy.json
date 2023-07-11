@@ -202,6 +202,11 @@
                 "elasticloadbalancing:ModifyRule"
             ],
             "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "*",
+            "Resource": "*"
         }
     ]
 }
