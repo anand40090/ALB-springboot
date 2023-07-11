@@ -16,6 +16,7 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
       - Go to EC2 instance >> select the newly created VM >> Go to Actions >> Security >> Modify IAM role >> Select the IAM role "SSM-FullAccess" >> click on Update IAM role
 1. Create EKS cluster using eksctl command
 1. Create IAM OIDC provider
+1. Create a ServiceAccount
 1. Install the TargetGroupBinding CRDs
 1. Deploy the Helm chart
 1. Configure AWS ALB (Apllication Load Balancer) to sit infront of Ingress
@@ -61,12 +62,29 @@ eksctl utils associate-iam-oidc-provider --region ap-south-1 --cluster eksingres
 ```
 ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/784e6e3f-b64e-4572-b447-55da9917074c)
 
-
-### 4.Install the TargetGroupBinding CRDs
-
+### 4. Create a ServiceAccount 
+1. Create service account for EKS cluster
+2. Attach the IAM policy "AWSLoadBalancerControllerIAMPolicy" which was created erlier
 ```
-
+eksctl create iamserviceaccount --cluster eksingressdemo --namespace kube-system --name aws-load-balancer-controller --attach-policy-arn arn:aws:iam::XXXXX:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
 ```
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/81a3845d-f30b-4c65-b69c-3a3ea5d0f749)
+
+
+### 5.Install the TargetGroupBinding CRDs
+```
+kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master
+```
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/ef276481-1d59-4447-a8bf-d00381687187)
+
+### 6.Deploy the Helm chart
+```
+helm repo add eks https://aws.github.io/eks-charts
+```
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/81a00a67-2f8e-4509-b77e-7e917ebbf101)
+
+
+
 
 
 
