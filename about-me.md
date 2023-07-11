@@ -24,11 +24,12 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 # Detailed steps 
 
 ### 1.Create the required IAM role and policy and attach it to the created VM, same policy to be attached to IAM user.
+
 #### Step 1 :- Create IAM policy for full access || policy name - "full-access"
 1. Copy the Json code and create IAM role for full access on the multiple AWS services
 2. Goto AWS IAM >> Policies >> Create policy >> open Json editor >> copy - paste below mentioned json code >> Next >> Review and create the policy
 3. This policy have full access on multiple AWS services that may be used during the execution on different services.
-4. Once the policy is created attach this policy to IAM role and attach that IAM role to the any os the AWS instance to provide access on the AWS services listed in the Json code. 
+4. Once the policy is created attach this policy to IAM role and attach that IAM role to the any of the AWS instance to provide access on the AWS services listed in the Json code. 
 ```
 {
     "Version": "2012-10-17",
@@ -71,6 +72,10 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 3. Add permissions >> select the newly created policy "full-access" >> Next >> Give role name >> Create role
 
    ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/765a7b8d-7551-40de-941d-3195806492ce)
+
+#### Step 3 :- Create IAM policy for EKS cluster 
+
+1. This IAM role to be attached to the EKS cluster once the cluster is created
 
 
 ### 1. Create VM to use EKSCTL & Kubectl 
