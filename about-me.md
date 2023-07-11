@@ -7,13 +7,12 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
    - Create the required IAM policies 1. full-access for IAM user 2. AWSLoadBalancerControllerIAMPolicy for EKS cluster
    - Create the required IAM role "SSM-FullAccess" for EC2 instance.
    - Follow the page for full VM setup with required applications [Setup an AWS EC2 Instance](https://sunitabachhav2007.hashnode.dev/jenkins-cicd-with-amazon-eks#heading-setup-an-aws-ec2-instance)
-   - [Install_AWS_CLI](https://sunitabachhav2007.hashnode.dev/jenkins-cicd-with-amazon-eks#heading-install-and-setup-aws-cli)
+   - Create IAM power user, attach the IAM policy "full-access". Download the user secret & private access key for future use.
+   - [Install_AWS_CLI_&_configure](https://sunitabachhav2007.hashnode.dev/jenkins-cicd-with-amazon-eks#heading-install-and-setup-aws-cli)
    - [Install_EKSCTL_KUBECTL](https://sunitabachhav2007.hashnode.dev/jenkins-cicd-with-amazon-eks#heading-install-and-setup-kubectl)
    - [Installing Helm](https://helm.sh/docs/intro/install/)
    - Once the VM is created attach the IAM role "SSM-FullAccess" to the created VM.
       - Go to EC2 instance >> select the newly created VM >> Go to Actions >> Security >> Modify IAM role >> Select the IAM role "SSM-FullAccess" >> click on Update IAM role
-   - Create IAM power user, attach the IAM policy "full-access". Download the user secret & private access key for future use.
-
 1. Create EKS cluster using eksctl command
 1. Create IAM OIDC provider
 1. Install the TargetGroupBinding CRDs
@@ -100,24 +99,9 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 #### Step 3 :- Create IAM policy for EKS cluster 
 
 1. This IAM role to be attached to the EKS cluster once the cluster is created
-2. Copy the Jason code from iam_policy.json [GitHub Pages](https://github.com/anand40090/ALB-springboot/blob/master/iam_policy.json)
+2. Copy the Jason code from [iam_policy.json](https://github.com/anand40090/ALB-springboot/blob/master/iam_policy.json)
 3. Perform above steps to create IAM policy
 4. Set policy name "AWSLoadBalancerControllerIAMPolicy", this IAM policy is needed while EKS cluster creation
-
-
-### 1. Create VM to use EKSCTL & Kubectl 
-(for this use any type of client machine, no dependency on vm type / os. Just EKSCTL and Kubectl to work fine)
-> Once the VM is created, login to the VM and install the prerequsites applications
-> To install git, Docker, openjdk-11,
-
-![image](https://github.com/anand40090/ALB-springboot/assets/32446706/1adbb4ab-6b96-4062-93ad-3c1084494746)
-![image](https://github.com/anand40090/ALB-springboot/assets/32446706/b65078e3-e083-4ec6-9b27-ec309f22f630)
-![image](https://github.com/anand40090/ALB-springboot/assets/32446706/0eb3e1a2-1d47-4a40-8e8a-81db1f764ef1)
-![image](https://github.com/anand40090/ALB-springboot/assets/32446706/55598957-a221-49b7-9182-655eac72e6c6)
-![image](https://github.com/anand40090/ALB-springboot/assets/32446706/a4b41213-bcb9-4596-aa7c-01e15f43649b)
-
-
-
 
 ### 2. Create IAM power user to execute the tasks
 1. Create user
@@ -126,45 +110,24 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 
 ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/7f39dd27-6930-482f-a57b-38db268fa2e2)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Have Helm installed in your VM
-https://helm.sh/docs/intro/install/
-manualy download your desired version
-Unpack it (tar -zxvf helm-v3.0.0-linux-amd64.tar.gz)
-Find the helm binary in the unpacked directory, and move it to its desired destination (mv linux-amd64/helm /usr/local/bin/helm)
-helm version --short
-
-Install helm from Script >> 
-$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-$ chmod 700 get_helm.sh
-$ ./get_helm.sh
-
 ## What Kubernetes Ingress
 "Kubernetes Ingress is an API object that provides routing rules to manage external user`s access to the services in a Kubernetes cluster,
 typically via HTTPS/HTTP"
 
-
 ## Create EKS cluster
-eksctl create cluster --name eksingressdemo --node-type t2.medium --nodes 2 --nodes-min 2 --nodes-max 3 --region ap-south-1 --zones=ap-south-1a,ap-south-1b
+eksctl create cluster --name eksingressdemo\
+--node-type t2.medium\
+--nodes 2\
+--nodes-min 2\
+--nodes-max 3\
+--region ap-south-1\
+--zones=ap-south-1a,ap-south-1b\
+--authenticator-role-arn=(Copy ARN for your created policy at Step 3 :- Create IAM policy for EKS cluster)\
+--auto-kubeconfig\
+--asg-access\
+--external-dns-access\
+--appmesh-access\
+--alb-ingress-access
 
 ## Get EKS Cluster service
 eksctl get cluster --name eksingressdemo --region ap-south-1
@@ -177,6 +140,8 @@ aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-
 
 ## Create a IAM role and ServiceAccount
 eksctl create iamserviceaccount --cluster eksingressdemo --namespace kube-system --name aws-load-balancer-controller --attach-policy-arn arn:aws:iam::400150977086:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
+
+>Note :- --attach-policy-arn would be different, check the arn of IAM policy "AWSLoadBalancerControllerIAMPolicy" when you created erlier above. 
 
 ## Install the TargetGroupBinding CRDs
 kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master
