@@ -118,6 +118,6 @@ kubectl get pods --all-namespaces
 ### 12.Delete EKS cluster
 
 ```
-eksctl delete cluster --name eksingressdemo --region us-east-1
+eksctl delete cluster --name eksingressdemo --region ap-south-1
 ```
 
