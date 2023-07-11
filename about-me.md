@@ -3,21 +3,22 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 
 ## High level steps
 ---
-1. Create VM to use EKSCTL & Kubectl (for this use any type of OS VM, no dependency on vm type)
-2. Create IAM power user to execute the tasks. 
-3. Create IAM role and policy and attach it to the created VM, same policy to be attached to IAM user.
-4. Install pre-requsite applications (Git, Docker,Maven,Jdk-11,EKSCTL,KUBECTL,HELM,AWSCLI).
-5. Configure the IAM user in created vm.
-6. Create EKS cluster using ekstcl command
-7. Create IAM OIDC provider
-8. Install the TargetGroupBinding CRDs
-9. Deploy the Helm chart
-10. Configure AWS ALB (Apllication Load Balancer) to sit infront of Ingress
-11. Deploy Sample Application
-12. Verify Ingress
-13. Get Ingress URL
-14. Get EKS Pod data
-15. Delete EKS cluster once your job is done
+1. Create the required IAM role and policy and attach it to the created VM, same policy to be attached to IAM user.
+2. Create VM to use EKSCTL & Kubectl (for this use any type of OS VM, no dependency on vm type)
+3. Create IAM power user to execute the tasks.
+4. Create IAM role and policy and attach it to the created VM, same policy to be attached to IAM user.
+5. Install pre-requsite applications (Git, Docker,Maven,Jdk-11,EKSCTL,KUBECTL,HELM,AWSCLI).
+6. Configure the IAM user in created vm.
+7. Create EKS cluster using ekstcl command
+8. Create IAM OIDC provider
+9. Install the TargetGroupBinding CRDs
+10. Deploy the Helm chart
+11. Configure AWS ALB (Apllication Load Balancer) to sit infront of Ingress
+12. Deploy Sample Application
+13. Verify Ingress
+14. Get Ingress URL
+15. Get EKS Pod data
+16. Delete EKS cluster once your job is done
 ---
 
 # Detailed steps 
