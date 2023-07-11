@@ -83,6 +83,23 @@ helm repo add eks https://aws.github.io/eks-charts
 ```
 ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/81a00a67-2f8e-4509-b77e-7e917ebbf101)
 
+### 7.Configure AWS ALB (Apllication Load Balancer) to sit infront of Ingress
+```
+helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=eksingressdemo --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller -n kube-system --set region=ap-south-1
+```
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/3e1ac64a-44b1-429a-a736-ebe76f53dda6)
+
+### 8.Deploy Sample Application
+1. Apply the [2048_full_latest.yaml](https://github.com/anand40090/ALB-springboot/blob/master/2048_full_latest.yaml) yaml file to create service and deployment with ALB
+2. Download the file locally and apply.
+
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/6f0ed91a-6048-4f1d-bc59-aa01a47c1c39)
+
+### 9.Verify Ingress
+```
+kubectl get ingress -A kubectl get ingress/ingress-2048 -n game-2048
+```
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/a8c6815f-2abf-4ce9-a60c-f60c2ac9bfc6)
 
 
 
