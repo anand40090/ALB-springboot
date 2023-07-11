@@ -49,6 +49,12 @@ eksctl create cluster --name eksingressdemo\
 
 ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/845184ab-cbee-4128-ab6e-b9e5bf1c9336)
 
+- Verify the cluster once created
+```
+eksctl get cluster --name eksingressdemo --region ap-south-1
+```
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/436dec35-b117-4bb5-8ea6-0c8c7c46ef4c)
+
 ### 3.Create IAM OIDC provider
 ```
 eksctl utils associate-iam-oidc-provider --region ap-south-1 --cluster eksingressdemo --approve
