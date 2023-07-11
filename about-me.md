@@ -27,13 +27,40 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 ---
 
 
+### 2.Create EKS cluster using eksctl command
+   - This command will create EKS cluster with minimum 2 and maximum 3 nodes in ap-south-1 region. 
+   - authenticator-role-arn will attach the IAM policy created for EKS cluster.
+   - Node groups will be created automatically.
+```
+eksctl create cluster --name eksingressdemo\
+--node-type t2.medium\
+--nodes 2\
+--nodes-min 2\
+--nodes-max 3\
+--region ap-south-1\
+--zones=ap-south-1a,ap-south-1b\
+--authenticator-role-arn=arn:aws:iam::XXXXXXXXXXX:instance-profile/SSM-FullAccess\
+--auto-kubeconfig\
+--asg-access\
+--external-dns-access\
+--appmesh-access\
+--alb-ingress-access
+```
+
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/845184ab-cbee-4128-ab6e-b9e5bf1c9336)
+
+### 3.Create IAM OIDC provider
+```
+eksctl utils associate-iam-oidc-provider --region ap-south-1 --cluster eksingressdemo --approve
+```
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/784e6e3f-b64e-4572-b447-55da9917074c)
 
 
+### 4.Install the TargetGroupBinding CRDs
 
+```
 
-
-
-
+```
 
 
 
