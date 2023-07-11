@@ -73,7 +73,7 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 
    ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/765a7b8d-7551-40de-941d-3195806492ce)
 
-#### Step 3 :- Create IAM policy for EKS cluster 
+#### Step 3 :- Create IAM role for EKS cluster 
 
 1. This IAM role to be attached to the EKS cluster once the cluster is created
 2. Copy the Jason code from iam_policy.json 
