@@ -63,9 +63,15 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
     ]
 }
 ```
-#### Step 2 :- Create IAM role and attch the above created polic to that role
-1. Go to IAM >> Roles >> Create role >> Select Trusted entity type "AWS service" >> Common use cases "EC2" >> Next >> 
-2. Add permissions >> select the newly created policy "full-access" >> Next >> Give role name >> Create role
+#### Step 2 :- Create IAM role and attach the above created polic to that role
+1. Go to IAM >> Roles >> Create role >> Select Trusted entity type "AWS service" >> Common use cases "EC2" >> Next >>
+   
+   ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/9af3a0db-dd7f-4705-b184-ec3c1698dd7e)
+
+3. Add permissions >> select the newly created policy "full-access" >> Next >> Give role name >> Create role
+
+   ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/765a7b8d-7551-40de-941d-3195806492ce)
+
 
 ### 1. Create VM to use EKSCTL & Kubectl 
 (for this use any type of client machine, no dependency on vm type / os. Just EKSCTL and Kubectl to work fine)
