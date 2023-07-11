@@ -5,7 +5,8 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 ---
 1. Infra creation for this project
    - Create the required IAM policies 1. full-access for IAM user 2. AWSLoadBalancerControllerIAMPolicy for EKS cluster
-   - Create the required IAM role "SSM-FullAccess" for EC2 instance.
+   - Create the required IAM role "SSM-FullAccess" for EC2 instance and attach the IAM policy "full-access"
+   - Create the required IAM role "EKS-ALB" for EKS cluster and attach the IAM policy "AWSLoadBalancerControllerIAMPolicy", "Administrator"
    - Follow the page for full VM setup with required applications [Setup an AWS EC2 Instance](https://sunitabachhav2007.hashnode.dev/jenkins-cicd-with-amazon-eks#heading-setup-an-aws-ec2-instance)
    - Create IAM power user, attach the IAM policy "full-access". Download the user secret & private access key for future use.
    - [Install_AWS_CLI_&_configure](https://sunitabachhav2007.hashnode.dev/jenkins-cicd-with-amazon-eks#heading-install-and-setup-aws-cli)
