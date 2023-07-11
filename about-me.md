@@ -1,11 +1,11 @@
 ## Pre-requisite links
 https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 
-## High level tasks 
+## High level steps
 ---
-1. Create VM to use EKSCTL & Kubectl (for this use any type of Linux OS VM, no dependency on vm type)
+1. Create VM to use EKSCTL & Kubectl (for this use any type of OS VM, no dependency on vm type)
 2. Create IAM power user to execute the tasks. 
-3. Create IAM role and policy and attach it to the created VM, same policty to be attached to IAM user.
+3. Create IAM role and policy and attach it to the created VM, same policy to be attached to IAM user.
 4. Install pre-requsite applications (Git, Docker,Maven,Jdk-11,EKSCTL,KUBECTL,HELM,AWSCLI).
 5. Configure the IAM user in created vm.
 6. Create EKS cluster using ekstcl command
@@ -17,8 +17,27 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 12. Verify Ingress
 13. Get Ingress URL
 14. Get EKS Pod data
-15. Delete EKS cluster
+15. Delete EKS cluster once your job is done
 ---
+
+# Detailed steps 
+### 1. Create VM to use EKSCTL & Kubectl 
+(for this use any type of client machine, no dependency on vm type / os. Just EKSCTL and Kubectl to work fine)
+
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/1adbb4ab-6b96-4062-93ad-3c1084494746)
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/b65078e3-e083-4ec6-9b27-ec309f22f630)
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/0eb3e1a2-1d47-4a40-8e8a-81db1f764ef1)
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/55598957-a221-49b7-9182-655eac72e6c6)
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/a4b41213-bcb9-4596-aa7c-01e15f43649b)
+
+### 2. Create IAM power user to execute the tasks
+1. Create user
+2. Download the user creadentials (secret access key and private key), this to be used to imbed the user in AWS cli
+
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/7f39dd27-6930-482f-a57b-38db268fa2e2)
+
+
+
 
 
 
