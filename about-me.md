@@ -3,10 +3,10 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 
 ## High level steps
 ---
-1. Create the required IAM role and policy and attach it to the created VM, same policy to be attached to IAM user.
-2. Create VM to use EKSCTL & Kubectl (for this use any type of OS VM, no dependency on vm type)
-3. Create IAM power user to execute the tasks.
-4. Create IAM role and policy and attach it to the created VM, same policy to be attached to IAM user.
+1. Create the required IAM role (SSM-FullAccess for EC2 instance)
+1. Create IAM policy 1. full-access for IAM user 2. AWSLoadBalancerControllerIAMPolicy for EKS cluster
+1. Create VM to use EKSCTL & Kubectl (for this use any type of OS VM, no dependency on vm type), attach the IAM "SSM-FullAccess" role 
+1. Create IAM power user, attach the IAM policy "full-access". Download the user scret & private access key for future use.
 5. Install pre-requsite applications (Git, Docker,Maven,Jdk-11,EKSCTL,KUBECTL,HELM,AWSCLI).
 6. Configure the IAM user in created vm.
 7. Create EKS cluster using ekstcl command
@@ -64,7 +64,7 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
     ]
 }
 ```
-#### Step 2 :- Create IAM role and attach the above created polic to that role
+#### Step 2 :- Create IAM role and attach the above created policy to that role
 1. Go to IAM >> Roles >> Create role >> Select Trusted entity type "AWS service" >> Common use cases "EC2" >> Next >>
    
    ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/9af3a0db-dd7f-4705-b184-ec3c1698dd7e)
@@ -73,14 +73,18 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 
    ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/765a7b8d-7551-40de-941d-3195806492ce)
 
-#### Step 3 :- Create IAM role for EKS cluster 
+#### Step 3 :- Create IAM policy for EKS cluster 
 
 1. This IAM role to be attached to the EKS cluster once the cluster is created
-2. Copy the Jason code from iam_policy.json 
+2. Copy the Jason code from iam_policy.json [GitHub Pages](https://github.com/anand40090/ALB-springboot/blob/master/iam_policy.json)
+3. Perform above steps to create IAM policy
+4. Set policy name "AWSLoadBalancerControllerIAMPolicy", this IAM policy is needed while EKS cluster creation
 
 
 ### 1. Create VM to use EKSCTL & Kubectl 
 (for this use any type of client machine, no dependency on vm type / os. Just EKSCTL and Kubectl to work fine)
+> Once the VM is created, login to the VM and install the prerequsites applications
+> To install git, Docker, openjdk-11,
 
 ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/1adbb4ab-6b96-4062-93ad-3c1084494746)
 ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/b65078e3-e083-4ec6-9b27-ec309f22f630)
@@ -88,9 +92,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/55598957-a221-49b7-9182-655eac72e6c6)
 ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/a4b41213-bcb9-4596-aa7c-01e15f43649b)
 
+
+
+
 ### 2. Create IAM power user to execute the tasks
 1. Create user
-2. Download the user creadentials (secret access key and private key), this to be used to imbed the user in AWS cli
+2. Download the user creadentials (secret access key and private key), this to be used to configure the user in AWS cli
+3. Attch the IAM policy "full-access" to poweruser
 
 ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/7f39dd27-6930-482f-a57b-38db268fa2e2)
 
