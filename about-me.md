@@ -101,145 +101,23 @@ kubectl get ingress -A kubectl get ingress/ingress-2048 -n game-2048
 ```
 ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/a8c6815f-2abf-4ce9-a60c-f60c2ac9bfc6)
 
+### 10.Get Ingress URL
 
-
-
-
-
-
-
-
-
-
-
-
-# Detailed steps 
-
-### 1.Create the required IAM role and policy and attach it to the created VM, same policy to be attached to IAM user.
-
-#### Step 1 :- Create IAM policy for full access || policy name - "full-access"
-1. Copy the Json code and create IAM role for full access on the multiple AWS services
-2. Goto AWS IAM >> Policies >> Create policy >> open Json editor >> copy - paste below mentioned json code >> Next >> Review and create the policy
-3. This policy have full access on multiple AWS services that may be used during the execution on different services.
-4. Once the policy is created attach this policy to IAM role and attach that IAM role to the any of the AWS instance to provide access on the AWS services listed in the Json code. 
 ```
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "Statement1",
-            "Effect": "Allow",
-            "Action": [
-                "ec2:*",
-                "ecr:*",
-                "s3:*",
-                "iam:*",
-                "eks:*",
-                "rds:*",
-                "cloudformation:*",
-                "sns:*",
-                "ses:*",
-                "autoscaling:*",
-                "autoscaling-plans:*",
-                "codedeploy:*",
-                "acm:*",
-                "cognito-idp:*",
-                "shield:*",
-                "wafv2:*",
-                "elasticloadbalancing:*",
-                "waf-regional:*"
-            ],
-            "Resource": [
-                "*"
-            ]
-        }
-    ]
-}
-```
-#### Step 2 :- Create IAM role and attach the above created policy to that role
-1. Go to IAM >> Roles >> Create role >> Select Trusted entity type "AWS service" >> Common use cases "EC2" >> Next >>
-   
-   ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/9af3a0db-dd7f-4705-b184-ec3c1698dd7e)
-
-3. Add permissions >> select the newly created policy "full-access" >> Next >> Give role name >> Create role
-
-   ![image](https://github.com/anand40090/ALB-springboot/assets/32446706/765a7b8d-7551-40de-941d-3195806492ce)
-
-#### Step 3 :- Create IAM policy for EKS cluster 
-
-1. This IAM role to be attached to the EKS cluster once the cluster is created
-2. Copy the Jason code from [iam_policy.json](https://github.com/anand40090/ALB-springboot/blob/master/iam_policy.json)
-3. Perform above steps to create IAM policy
-4. Set policy name "AWSLoadBalancerControllerIAMPolicy", this IAM policy is needed while EKS cluster creation
-
-### 2. Create IAM power user to execute the tasks
-1. Create user
-2. Download the user creadentials (secret access key and private key), this to be used to configure the user in AWS cli
-3. Attch the IAM policy "full-access" to poweruser
-
-![image](https://github.com/anand40090/ALB-springboot/assets/32446706/7f39dd27-6930-482f-a57b-38db268fa2e2)
-
-## What Kubernetes Ingress
-"Kubernetes Ingress is an API object that provides routing rules to manage external user`s access to the services in a Kubernetes cluster,
-typically via HTTPS/HTTP"
-
-## Create EKS cluster
-eksctl create cluster --name eksingressdemo\
---node-type t2.medium\
---nodes 2\
---nodes-min 2\
---nodes-max 3\
---region ap-south-1\
---zones=ap-south-1a,ap-south-1b\
---authenticator-role-arn=(Copy ARN for your created policy at Step 3 :- Create IAM policy for EKS cluster)\
---auto-kubeconfig\
---asg-access\
---external-dns-access\
---appmesh-access\
---alb-ingress-access
-
-![image](https://github.com/anand40090/ALB-springboot/assets/32446706/6bd52ef3-1c3b-4cea-bd8d-a24fb3b4850c)
-
-
-## Get EKS Cluster service
-eksctl get cluster --name eksingressdemo --region ap-south-1
-
-## Create IAM OIDC provider
-eksctl utils associate-iam-oidc-provider --region ap-south-1 --cluster eksingressdemo --approve
-
-## Create a IAM role and ServiceAccount
-eksctl create iamserviceaccount --cluster eksingressdemo --namespace kube-system --name aws-load-balancer-controller --attach-policy-arn arn:aws:iam::400150977086:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
-
->Note :- --attach-policy-arn would be different, check the arn of IAM policy "AWSLoadBalancerControllerIAMPolicy" when you created erlier above. 
-
-## Install the TargetGroupBinding CRDs
-kubectl apply -k github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master
-kubectl get crd
-
-## Deploy the Helm chart
-helm repo add eks https://aws.github.io/eks-charts
-
-## Configure AWS ALB (Apllication Load Balancer) to sit infront of Ingress
-helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=eksingressdemo --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller -n kube-system --set region=ap-south-1
-
-helm ls -n kube-system
-
-kubectl -n kube-system rollout status deployment aws-load-balancer-controller
-
-## Deploy Sample Application
-kubectl apply -f 2048_full_latest.yaml
-kubectl apply -f springboot-deployment.yaml springboot-ingress.yaml springboot-service.yaml
-
-## Verify Ingress
- kubectl get ingress -A
-kubectl get ingress/ingress-2048 -n game-2048
-
-## Get Ingress URL
 kubectl get ingress/ingress-2048 -n game-2048 -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+```
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/165a82e5-9889-4e30-b616-9ac5050a4e4f)
 
-## Get EKS Pod data.
+### 11.Get EKS Pod data
+
+```
 kubectl get pods --all-namespaces
+```
+![image](https://github.com/anand40090/ALB-springboot/assets/32446706/14611068-00d2-4f70-8ae8-15215b2cf4fd)
 
-## Delete EKS cluster
+### 12.Delete EKS cluster
+
+```
 eksctl delete cluster --name eksingressdemo --region us-east-1
+```
 
