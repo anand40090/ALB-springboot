@@ -76,6 +76,7 @@ https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
 #### Step 3 :- Create IAM policy for EKS cluster 
 
 1. This IAM role to be attached to the EKS cluster once the cluster is created
+2. Copy the Jason code from iam_policy.json 
 
 
 ### 1. Create VM to use EKSCTL & Kubectl 
